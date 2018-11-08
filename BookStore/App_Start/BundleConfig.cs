@@ -19,11 +19,15 @@ namespace BookStore
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
-            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js"));
+            bundles.Add(new ScriptBundle("~/bundles/lib").Include(
+                      "~/Scripts/bootstrap.js",
+                      "~/Scripts/datatables/datatables.js",
+                      "~/Scripts/popper.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/datatables/datatables.css",
+                      "~/Content/mdb.css",
                       "~/Content/site.css"));
         }
     }
