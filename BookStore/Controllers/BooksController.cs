@@ -17,7 +17,8 @@ namespace BookStore.Controllers
         // GET: Books
         public ActionResult Index()
         {
-            return View(db.Books.ToList());
+            var books = db.Books.Include(book => book.MovieModels).ToList();
+            return View(books);
         }
 
         // GET: Books/Details/5
