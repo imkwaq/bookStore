@@ -13,7 +13,7 @@ namespace BookStore.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201811081244568_AddBookAndMovieModelsToAppWithBothModelsOfGenres"; }
+            get { return "201811081307156_AddBookAndMovieModelsToAppWithBothModelsOfGenres"; }
         }
         
         string IMigrationMetadata.Source

@@ -8,7 +8,7 @@ namespace BookStore.Migrations
         public override void Up()
         {
             CreateTable(
-                "dbo.BookGenreModels",
+                "dbo.BookGenres",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
@@ -17,7 +17,7 @@ namespace BookStore.Migrations
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
-                "dbo.BookModels",
+                "dbo.Books",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
@@ -30,13 +30,13 @@ namespace BookStore.Migrations
                         MovieModelsId_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.BookGenreModels", t => t.BookGenreModelsId_Id)
-                .ForeignKey("dbo.MovieModels", t => t.MovieModelsId_Id)
+                .ForeignKey("dbo.BookGenres", t => t.BookGenreModelsId_Id)
+                .ForeignKey("dbo.Movies", t => t.MovieModelsId_Id)
                 .Index(t => t.BookGenreModelsId_Id)
                 .Index(t => t.MovieModelsId_Id);
             
             CreateTable(
-                "dbo.MovieModels",
+                "dbo.Movies",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
@@ -49,11 +49,11 @@ namespace BookStore.Migrations
                         MovieGenreModelsId_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.MovieGenreModels", t => t.MovieGenreModelsId_Id)
+                .ForeignKey("dbo.MovieGenres", t => t.MovieGenreModelsId_Id)
                 .Index(t => t.MovieGenreModelsId_Id);
             
             CreateTable(
-                "dbo.MovieGenreModels",
+                "dbo.MovieGenres",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
@@ -65,16 +65,16 @@ namespace BookStore.Migrations
         
         public override void Down()
         {
-            DropForeignKey("dbo.BookModels", "MovieModelsId_Id", "dbo.MovieModels");
-            DropForeignKey("dbo.MovieModels", "MovieGenreModelsId_Id", "dbo.MovieGenreModels");
-            DropForeignKey("dbo.BookModels", "BookGenreModelsId_Id", "dbo.BookGenreModels");
-            DropIndex("dbo.MovieModels", new[] { "MovieGenreModelsId_Id" });
-            DropIndex("dbo.BookModels", new[] { "MovieModelsId_Id" });
-            DropIndex("dbo.BookModels", new[] { "BookGenreModelsId_Id" });
-            DropTable("dbo.MovieGenreModels");
-            DropTable("dbo.MovieModels");
-            DropTable("dbo.BookModels");
-            DropTable("dbo.BookGenreModels");
+            DropForeignKey("dbo.Books", "MovieModelsId_Id", "dbo.Movies");
+            DropForeignKey("dbo.Movies", "MovieGenreModelsId_Id", "dbo.MovieGenres");
+            DropForeignKey("dbo.Books", "BookGenreModelsId_Id", "dbo.BookGenres");
+            DropIndex("dbo.Movies", new[] { "MovieGenreModelsId_Id" });
+            DropIndex("dbo.Books", new[] { "MovieModelsId_Id" });
+            DropIndex("dbo.Books", new[] { "BookGenreModelsId_Id" });
+            DropTable("dbo.MovieGenres");
+            DropTable("dbo.Movies");
+            DropTable("dbo.Books");
+            DropTable("dbo.BookGenres");
         }
     }
 }
