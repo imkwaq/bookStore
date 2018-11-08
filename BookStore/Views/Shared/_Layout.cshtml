@@ -11,17 +11,23 @@
 <body>
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
         <div class="container">            
-            @Html.ActionLink("Book store", "Index", "Home", new { @class = "navbar-brand" })
+            @Html.ActionLink("Book store", "Index", "Home", new { action = "" }, new { @class = "navbar-brand" })
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                    <li class="nav-item">
+                    @*<li class="nav-item">
                         @Html.ActionLink("About", "About", "Home", new { @class = "nav-link" })
                     </li>
                     <li class="nav-item">
                         @Html.ActionLink("Contact", "Contact", "Home", new { @class = "nav-link" })
+                    </li>*@
+                    <li class="nav-item">
+                        @Html.ActionLink("Books", "Index", "Books", new { action = "" }, new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Movies", "Index", "Movies", new { action = "" }, new { @class = "nav-link" })
                     </li>
                 </ul>
                 @Html.Partial("_LoginPartial")
