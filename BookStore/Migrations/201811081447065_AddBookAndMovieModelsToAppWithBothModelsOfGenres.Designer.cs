@@ -7,13 +7,13 @@ namespace BookStore.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class InitialModel : IMigrationMetadata
+    public sealed partial class AddBookAndMovieModelsToAppWithBothModelsOfGenres : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialModel));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddBookAndMovieModelsToAppWithBothModelsOfGenres));
         
         string IMigrationMetadata.Id
         {
-            get { return "201811081152297_InitialModel"; }
+            get { return "201811081447065_AddBookAndMovieModelsToAppWithBothModelsOfGenres"; }
         }
         
         string IMigrationMetadata.Source

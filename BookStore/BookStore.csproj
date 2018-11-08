@@ -193,20 +193,17 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MoviesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201811081152297_InitialModel.cs" />
-    <Compile Include="Migrations\201811081152297_InitialModel.Designer.cs">
-      <DependentUpon>201811081152297_InitialModel.cs</DependentUpon>
+    <Compile Include="Migrations\201811081445190_InitialModel.cs" />
+    <Compile Include="Migrations\201811081445190_InitialModel.Designer.cs">
+      <DependentUpon>201811081445190_InitialModel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201811081335123_AddBookAndMovieModelsToAppWithBothModelsOfGenres.cs" />
-    <Compile Include="Migrations\201811081335123_AddBookAndMovieModelsToAppWithBothModelsOfGenres.Designer.cs">
-      <DependentUpon>201811081335123_AddBookAndMovieModelsToAppWithBothModelsOfGenres.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201811081403494_AddAuthorsToBookModel.cs" />
-    <Compile Include="Migrations\201811081403494_AddAuthorsToBookModel.Designer.cs">
-      <DependentUpon>201811081403494_AddAuthorsToBookModel.cs</DependentUpon>
+    <Compile Include="Migrations\201811081447065_AddBookAndMovieModelsToAppWithBothModelsOfGenres.cs" />
+    <Compile Include="Migrations\201811081447065_AddBookAndMovieModelsToAppWithBothModelsOfGenres.Designer.cs">
+      <DependentUpon>201811081447065_AddBookAndMovieModelsToAppWithBothModelsOfGenres.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -317,6 +314,11 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Movies\Create.cshtml" />
+    <Content Include="Views\Movies\Delete.cshtml" />
+    <Content Include="Views\Movies\Details.cshtml" />
+    <Content Include="Views\Movies\Edit.cshtml" />
+    <Content Include="Views\Movies\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -333,14 +335,11 @@
     <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201811081152297_InitialModel.resx">
-      <DependentUpon>201811081152297_InitialModel.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201811081445190_InitialModel.resx">
+      <DependentUpon>201811081445190_InitialModel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811081335123_AddBookAndMovieModelsToAppWithBothModelsOfGenres.resx">
-      <DependentUpon>201811081335123_AddBookAndMovieModelsToAppWithBothModelsOfGenres.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811081403494_AddAuthorsToBookModel.resx">
-      <DependentUpon>201811081403494_AddAuthorsToBookModel.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201811081447065_AddBookAndMovieModelsToAppWithBothModelsOfGenres.resx">
+      <DependentUpon>201811081447065_AddBookAndMovieModelsToAppWithBothModelsOfGenres.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

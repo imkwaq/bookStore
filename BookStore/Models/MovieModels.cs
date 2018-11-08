@@ -9,6 +9,6 @@ namespace BookStore.Models
         public string Director { get; set; }
         public DateTime ReleaseDate { get; set; }
         public int RunningTime { get; set; }
-        public MovieGenreModels Genre { get; set; }
+        public MovieGenreModels MovieGenreModels { get; set; }
     }
 }

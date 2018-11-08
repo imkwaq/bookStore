@@ -8,7 +8,7 @@ namespace BookStore.Migrations
         public override void Up()
         {
             CreateTable(
-                "dbo.BookGenres",
+                "dbo.BookGenreModels",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
@@ -17,24 +17,26 @@ namespace BookStore.Migrations
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
-                "dbo.Books",
+                "dbo.BookModels",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(),
+                        Author = c.String(),
+                        ReleaseYear = c.Short(nullable: false),
                         Description = c.String(),
                         Price = c.Decimal(nullable: false, precision: 18, scale: 2),
-                        Genre_Id = c.Int(),
-                        RelatedMovie_Id = c.Int(),
+                        BookGenreModels_Id = c.Int(),
+                        MovieModels_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.BookGenres", t => t.Genre_Id)
-                .ForeignKey("dbo.Movies", t => t.RelatedMovie_Id)
-                .Index(t => t.Genre_Id)
-                .Index(t => t.RelatedMovie_Id);
+                .ForeignKey("dbo.BookGenreModels", t => t.BookGenreModels_Id)
+                .ForeignKey("dbo.MovieModels", t => t.MovieModels_Id)
+                .Index(t => t.BookGenreModels_Id)
+                .Index(t => t.MovieModels_Id);
             
             CreateTable(
-                "dbo.Movies",
+                "dbo.MovieModels",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
@@ -42,14 +44,14 @@ namespace BookStore.Migrations
                         Director = c.String(),
                         ReleaseDate = c.DateTime(nullable: false),
                         RunningTime = c.Int(nullable: false),
-                        Genre_Id = c.Int(),
+                        MovieGenreModels_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.MovieGenres", t => t.Genre_Id)
-                .Index(t => t.Genre_Id);
+                .ForeignKey("dbo.MovieGenreModels", t => t.MovieGenreModels_Id)
+                .Index(t => t.MovieGenreModels_Id);
             
             CreateTable(
-                "dbo.MovieGenres",
+                "dbo.MovieGenreModels",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
@@ -61,16 +63,16 @@ namespace BookStore.Migrations
         
         public override void Down()
         {
-            DropForeignKey("dbo.Books", "RelatedMovie_Id", "dbo.Movies");
-            DropForeignKey("dbo.Movies", "Genre_Id", "dbo.MovieGenres");
-            DropForeignKey("dbo.Books", "Genre_Id", "dbo.BookGenres");
-            DropIndex("dbo.Movies", new[] { "Genre_Id" });
-            DropIndex("dbo.Books", new[] { "RelatedMovie_Id" });
-            DropIndex("dbo.Books", new[] { "Genre_Id" });
-            DropTable("dbo.MovieGenres");
-            DropTable("dbo.Movies");
-            DropTable("dbo.Books");
-            DropTable("dbo.BookGenres");
+            DropForeignKey("dbo.BookModels", "MovieModels_Id", "dbo.MovieModels");
+            DropForeignKey("dbo.MovieModels", "MovieGenreModels_Id", "dbo.MovieGenreModels");
+            DropForeignKey("dbo.BookModels", "BookGenreModels_Id", "dbo.BookGenreModels");
+            DropIndex("dbo.MovieModels", new[] { "MovieGenreModels_Id" });
+            DropIndex("dbo.BookModels", new[] { "MovieModels_Id" });
+            DropIndex("dbo.BookModels", new[] { "BookGenreModels_Id" });
+            DropTable("dbo.MovieGenreModels");
+            DropTable("dbo.MovieModels");
+            DropTable("dbo.BookModels");
+            DropTable("dbo.BookGenreModels");
         }
     }
 }
