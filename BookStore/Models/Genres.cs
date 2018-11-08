@@ -1,0 +1,37 @@
+﻿namespace BookStore.Models
+{
+    public enum Genres
+    {
+        ScienceFiction = 0,
+        Satire,
+        Drama,
+        ActionAndAdventure,
+        Romance,
+        Mystery,
+        Horror,
+        Selfhelp,
+        Health,
+        Guide,
+        Travel,
+        Childrens,
+        Religion,
+        Science,
+        History,
+        Math,
+        Anthology,
+        Poetry,
+        Encyclopedias,
+        Dictionaries,
+        Comics,
+        Art,
+        Cookbooks,
+        Diaries,
+        Journals,
+        PrayerBooks,
+        Series,
+        Trilogy,
+        Biographies,
+        Autobiographies,
+        Fantasy,
+    }
+}
