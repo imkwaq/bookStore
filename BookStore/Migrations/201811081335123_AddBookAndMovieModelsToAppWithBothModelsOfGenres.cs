@@ -24,16 +24,14 @@ namespace BookStore.Migrations
                         Name = c.String(),
                         Description = c.String(),
                         Price = c.Decimal(nullable: false, precision: 18, scale: 2),
-                        Pages = c.Short(nullable: false),
-                        Language = c.String(),
-                        BookGenreModelsId_Id = c.Int(),
-                        MovieModelsId_Id = c.Int(),
+                        Genre_Id = c.Int(),
+                        RelatedMovie_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.BookGenres", t => t.BookGenreModelsId_Id)
-                .ForeignKey("dbo.Movies", t => t.MovieModelsId_Id)
-                .Index(t => t.BookGenreModelsId_Id)
-                .Index(t => t.MovieModelsId_Id);
+                .ForeignKey("dbo.BookGenres", t => t.Genre_Id)
+                .ForeignKey("dbo.Movies", t => t.RelatedMovie_Id)
+                .Index(t => t.Genre_Id)
+                .Index(t => t.RelatedMovie_Id);
             
             CreateTable(
                 "dbo.Movies",
@@ -44,13 +42,11 @@ namespace BookStore.Migrations
                         Director = c.String(),
                         ReleaseDate = c.DateTime(nullable: false),
                         RunningTime = c.Int(nullable: false),
-                        Language = c.String(),
-                        Country = c.String(),
-                        MovieGenreModelsId_Id = c.Int(),
+                        Genre_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.MovieGenres", t => t.MovieGenreModelsId_Id)
-                .Index(t => t.MovieGenreModelsId_Id);
+                .ForeignKey("dbo.MovieGenres", t => t.Genre_Id)
+                .Index(t => t.Genre_Id);
             
             CreateTable(
                 "dbo.MovieGenres",
@@ -65,12 +61,12 @@ namespace BookStore.Migrations
         
         public override void Down()
         {
-            DropForeignKey("dbo.Books", "MovieModelsId_Id", "dbo.Movies");
-            DropForeignKey("dbo.Movies", "MovieGenreModelsId_Id", "dbo.MovieGenres");
-            DropForeignKey("dbo.Books", "BookGenreModelsId_Id", "dbo.BookGenres");
-            DropIndex("dbo.Movies", new[] { "MovieGenreModelsId_Id" });
-            DropIndex("dbo.Books", new[] { "MovieModelsId_Id" });
-            DropIndex("dbo.Books", new[] { "BookGenreModelsId_Id" });
+            DropForeignKey("dbo.Books", "RelatedMovie_Id", "dbo.Movies");
+            DropForeignKey("dbo.Movies", "Genre_Id", "dbo.MovieGenres");
+            DropForeignKey("dbo.Books", "Genre_Id", "dbo.BookGenres");
+            DropIndex("dbo.Movies", new[] { "Genre_Id" });
+            DropIndex("dbo.Books", new[] { "RelatedMovie_Id" });
+            DropIndex("dbo.Books", new[] { "Genre_Id" });
             DropTable("dbo.MovieGenres");
             DropTable("dbo.Movies");
             DropTable("dbo.Books");
