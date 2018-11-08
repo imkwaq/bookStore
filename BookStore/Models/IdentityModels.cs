@@ -20,6 +20,11 @@ namespace BookStore.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<BookModels> Books { get; set; }
+        public DbSet<MovieModels> Movies { get; set; }
+        public DbSet<BookGenreModels> BookGenres { get; set; }
+        public DbSet<MovieGenreModels> MovieGenres { get; set; }
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

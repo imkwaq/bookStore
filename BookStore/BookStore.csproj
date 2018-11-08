@@ -200,6 +200,10 @@
     <Compile Include="Migrations\201811081152297_InitialModel.Designer.cs">
       <DependentUpon>201811081152297_InitialModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811081244568_AddBookAndMovieModelsToAppWithBothModelsOfGenres.cs" />
+    <Compile Include="Migrations\201811081244568_AddBookAndMovieModelsToAppWithBothModelsOfGenres.Designer.cs">
+      <DependentUpon>201811081244568_AddBookAndMovieModelsToAppWithBothModelsOfGenres.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BookGenreModels.cs" />
@@ -327,6 +331,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201811081152297_InitialModel.resx">
       <DependentUpon>201811081152297_InitialModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811081244568_AddBookAndMovieModelsToAppWithBothModelsOfGenres.resx">
+      <DependentUpon>201811081244568_AddBookAndMovieModelsToAppWithBothModelsOfGenres.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
