@@ -28,7 +28,7 @@ namespace BookStore
                       "~/Content/bootstrap.css",
                       "~/Content/datatables/datatables.css",
                       "~/Content/mdb.css",
-                      "~/Content/site.css"));
+                      "~/Content/Site.css"));
         }
     }
 }

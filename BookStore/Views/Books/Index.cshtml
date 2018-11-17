@@ -1,84 +1,42 @@
 ﻿@model IEnumerable<BookStore.Models.BookModels>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Books for sale";
 }
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
+<p class="text-center">
+    @Html.ActionLink("Add new book", "Create", null, new { @class = "btn btn-default" })
 </p>
 
-<table id="books" class="table table-striped table-bordered" cellspacing="0" width="100%">
-    <thead>
-        <tr>
-            <th class="th-sm">
-                @Html.DisplayNameFor(model => model.Name)
-                <i class="fa fa-sort float-right" aria-hidden="true"></i>
-            </th>
-            <th class="th-sm">
-                @Html.DisplayNameFor(model => model.Author)
-                <i class="fa fa-sort float-right" aria-hidden="true"></i>
-            </th>
-            <th class="th-sm">
-                @Html.DisplayNameFor(model => model.ReleaseYear)
-                <i class="fa fa-sort float-right" aria-hidden="true"></i>
-            </th>
-            @*<th class="th-sm">
-                @Html.DisplayNameFor(model => model.Description)
-                <i class="fa fa-sort float-right" aria-hidden="true"></i>
-            </th>*@
-            <th class="th-sm">
-                @Html.DisplayNameFor(model => model.Price)
-                <i class="fa fa-sort float-right" aria-hidden="true"></i>
-            </th>
-            <th class="th-sm">
-                @Html.DisplayNameFor(model => model.MovieModels)
-                <i class="fa fa-sort float-right" aria-hidden="true"></i>
-            </th>
-            <th class="th-sm">
-                Admin panel
-                <i class="fa fa-sort float-right" aria-hidden="true"></i>
-            </th>
-        </tr>
-    </thead>   
-    <tbody>
+<div class="container flex-center">
+    <div class="row">
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Author)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ReleaseYear)
-                </td>
-                @*<td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>*@
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MovieModels.Name)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                </td>
-            </tr>
+            <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-5 ">
+                <div class="container-fluid">
+                    <div class="card-deck">
+                        <div class="card" style="width:18rem">
+                            @if (item.ImageData == null)
+                            {
+                                <img class="card-img-top" style='max-width:310px; max-height:450px;' src="~/Content/img/No_Photo_Available.jpg" alt="Card image cap">
+                            }
+                            else
+                            {
+                                @Html.Raw("<img style='max-width:310px; max-height:450px;' src=\"data:image/jpeg;base64,"
+                                + Convert.ToBase64String(item.ImageData) + "\" />")
+                            }
+                            <div class="card-body pb-0" style="height:121px">
+                                <h5 class="card-title font-weight-bold text-center">@Html.ActionLink(@item.Name, "Details", new { id = item.Id }, new { @class = "nav-link" })</h5>
+
+                            </div>
+                            <hr />
+                            <div class="card-body text-center pt-0">
+                                @Html.ActionLink("Add to cart", "AddToCart", "Cart", new { id = item.Id, returnUrl = Request.Url.PathAndQuery }, new { @class = "card-link" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         }
-    </tbody>    
-</table>
-@section scripts {
-    <script>
-        $(document).ready(function () {
-            $('#books').DataTable();
-            $('.dataTables_length').addClass('bs-select');
-        });
-    </script>
-}
+    </div>
+</div>

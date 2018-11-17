@@ -1,58 +1,68 @@
 ﻿@model BookStore.Models.BookModels
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Book details: " + Model.Name;
 }
 
-<h2>Details</h2>
-
-<div>
-    <h4>BookModels</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Author)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Author)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ReleaseYear)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ReleaseYear)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-
-    </dl>
+<div class="container">
+    <div class="container card pr-3" style="width: 38rem;">
+        <div class="row align-self-center">
+            <div class="col-6 pr-0 pl-0">
+                @if (Model.ImageData == null)
+                {
+                    <img class="card-img-top" style='max-width:310px; max-height:460px;' src="~/Content/img/No_Photo_Available.jpg" alt="Card image cap">
+                }
+                else
+                {
+                    @Html.Raw("<img style='max-width:310px; max-height:460px;' src=\"data:image/jpeg;base64,"
+                    + Convert.ToBase64String(Model.ImageData) + "\" />")
+                }
+                @*@Html.Raw("<img style='max-width:300px; max-height:470px;' src=\"data:image/jpeg;base64,"*@
+                                @*+ Convert.ToBase64String(Model.ImageData) + "\" />")*@
+                @*<img class="card-img-top" src="~/Content/HPandPS.jpg" alt="Card image cap">*@
+            </div>
+            <div class="col-6 pl-3">
+                <div class="card-body">
+                    <h5 class="card-title font-weight-bold text-center">@Model.Name</h5>
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <a class="font-weight-bold">
+                            @Html.DisplayNameFor(model => model.Author):
+                        </a>
+                        @Html.DisplayFor(model => model.Author)
+                    </li>
+                    <li class="list-group-item">
+                        <a class="font-weight-bold">
+                            @Html.DisplayNameFor(model => model.ReleaseYear):
+                        </a>
+                        @Html.DisplayFor(model => model.ReleaseYear)
+                    </li>
+                    <li class="list-group-item">
+                        <a class="font-weight-bold">
+                            @Html.DisplayNameFor(model => model.Price):
+                        </a>
+                        @Html.DisplayFor(model => model.Price)
+                    </li>
+                    <li class="list-group-item">
+                        <a class="font-weight-bold">
+                            @Html.DisplayNameFor(model => model.Description):
+                        </a>
+                        @Html.DisplayFor(model => model.Description)
+                    </li>
+                </ul>
+                <div class="container">
+                    <div class="row justify-content-center align-items-center pt-4">
+                        @Html.ActionLink("Add to cart", "AddToCart", "Cart", new { id = Model.Id, returnUrl = Request.Url.PathAndQuery }, new { @class = "btn btn-default p-3" })
+                        @Html.ActionLink("Back to list", "Index", "Book", new { @class = "btn btn-default p-3" })
+                        @Html.ActionLink("Edit book", "Edit", new { id = Model.Id }, new { @class = "btn btn-default p-3" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    
+
 </p>

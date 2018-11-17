@@ -190,8 +190,10 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Binders\CartModelBinder.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BooksController.cs" />
+    <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MoviesController.cs" />
@@ -206,10 +208,16 @@
     <Compile Include="Migrations\201811081447065_AddBookAndMovieModelsToAppWithBothModelsOfGenres.Designer.cs">
       <DependentUpon>201811081447065_AddBookAndMovieModelsToAppWithBothModelsOfGenres.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811092104307_AddImageColumsToBookModels.cs" />
+    <Compile Include="Migrations\201811092104307_AddImageColumsToBookModels.Designer.cs">
+      <DependentUpon>201811092104307_AddImageColumsToBookModels.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BookGenreModels.cs" />
     <Compile Include="Models\BookModels.cs" />
+    <Compile Include="Models\CartLineModels.cs" />
+    <Compile Include="Models\CartModels.cs" />
     <Compile Include="Models\Genres.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -217,6 +225,8 @@
     <Compile Include="Models\MovieModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\BookViewModel.cs" />
+    <Compile Include="ViewModels\CartIndexViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-grid.css" />
@@ -230,6 +240,7 @@
     <Content Include="Content\img\lightbox\default-skin.png" />
     <Content Include="Content\img\lightbox\default-skin.svg" />
     <Content Include="Content\img\lightbox\preloader.gif" />
+    <Content Include="Content\img\No_Photo_Available.jpg" />
     <Content Include="Content\img\overlays\01.png" />
     <Content Include="Content\img\overlays\02.png" />
     <Content Include="Content\img\overlays\03.png" />
@@ -243,6 +254,7 @@
     <Content Include="Content\img\svg\arrow_right.svg" />
     <Content Include="Content\mdb.css" />
     <Content Include="Content\mdb.min.css" />
+    <Content Include="datatable.html" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -347,6 +359,8 @@
     <Content Include="Views\Books\Details.cshtml" />
     <Content Include="Views\Books\Edit.cshtml" />
     <Content Include="Views\Books\Index.cshtml" />
+    <Content Include="Views\Cart\Index.cshtml" />
+    <Content Include="Views\Cart\Summary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -368,6 +382,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811081447065_AddBookAndMovieModelsToAppWithBothModelsOfGenres.resx">
       <DependentUpon>201811081447065_AddBookAndMovieModelsToAppWithBothModelsOfGenres.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811092104307_AddImageColumsToBookModels.resx">
+      <DependentUpon>201811092104307_AddImageColumsToBookModels.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

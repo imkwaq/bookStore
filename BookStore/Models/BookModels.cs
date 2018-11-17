@@ -15,7 +15,7 @@ namespace BookStore.Models
         public string Author { get; set; }
 
         [Required]
-        [Display(Name = "Release Year")]
+        [Display(Name = "Release")]
         public short ReleaseYear { get; set; }
 
         [Display(Name = "Genre")]
@@ -27,5 +27,9 @@ namespace BookStore.Models
 
         [Display(Name = "Related movie")]
         public MovieModels MovieModels { get; set; }
+
+        public byte[] ImageData { get; set; }
+
+        public string ImageMimeType { get; set; }
     }
 }
