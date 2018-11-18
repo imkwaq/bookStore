@@ -18,16 +18,16 @@ namespace BookStore
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
-            routes.MapRoute(
-               name: "MovieRoute",
-               url: "Movies/{action}/{id}",
-               defaults: new { controller = "Movies", action = "Index", id = UrlParameter.Optional }
-           );
-            routes.MapRoute(
-                name: "BookRoute",
-                url: "Books/{action}/{id}",
-                defaults: new { controller = "Books", action = "Index", id = UrlParameter.Optional }
-            );
+           // routes.MapRoute(
+           //    name: "MovieRoute",
+           //    url: "Movies/{action}/{id}",
+           //    defaults: new { controller = "Movies", action = "Index", id = UrlParameter.Optional }
+           //);
+            //routes.MapRoute(
+            //    name: "BookRoute",
+            //    url: "Books/{action}/{id}",
+            //    defaults: new { controller = "Books", action = "Index", id = UrlParameter.Optional }
+            //);
             
            
         }
