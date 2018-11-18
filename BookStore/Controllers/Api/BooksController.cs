@@ -26,26 +26,22 @@ namespace BookStore.Controllers.Api
         }
 
         //GET api/books/1
-        public BookDto GetBook(int id)
+        public IHttpActionResult GetBook(int id)
         {
             var book = applicationDbContext.Books.SingleOrDefault(b => b.Id == id);
 
             if (book == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
+                return NotFound();
 
-            return Mapper.Map<BookModels, BookDto>(book);
+            return Ok(Mapper.Map<BookModels, BookDto>(book));
         }
 
         //POST api/books
         [HttpPost]
-        public BookDto CreateBook(BookDto bookDto)
+        public IHttpActionResult CreateBook(BookDto bookDto)
         {
             if (!ModelState.IsValid)
-            {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
-            }
+                return BadRequest();
 
             var book = Mapper.Map<BookDto, BookModels>(bookDto);
                         
@@ -57,43 +53,41 @@ namespace BookStore.Controllers.Api
 
             bookDto.Id = book.Id;
             
-            return bookDto;
+            return Created(new Uri(Request.RequestUri + "/" + book.Id), bookDto);
         }
 
         //PUT api/books/1
         [HttpPut]
-        public void UpdateBook(int id, BookDto bookDto)
+        public IHttpActionResult UpdateBook(int id, BookDto bookDto)
         {
             if (!ModelState.IsValid)
-            {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
-            }
+                return BadRequest();
 
             var bookInDb = applicationDbContext.Books.SingleOrDefault(b => b.Id == id);
 
             if (bookInDb == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
+                return NotFound();
 
             Mapper.Map(bookDto, bookInDb);
 
             applicationDbContext.SaveChanges();
+
+            return Ok();
         }
 
         //DELETE api/books/1
         [HttpDelete]
-        public void DeleteBook(int id)
+        public IHttpActionResult DeleteBook(int id)
         {
             var bookInDb = applicationDbContext.Books.SingleOrDefault(b => b.Id == id);
 
             if (bookInDb == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
+                return NotFound();
 
             applicationDbContext.Books.Remove(bookInDb);
             applicationDbContext.SaveChanges();
+
+            return Ok();
         }
     }
 }
