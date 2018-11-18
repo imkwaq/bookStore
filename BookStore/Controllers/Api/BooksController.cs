@@ -40,22 +40,29 @@ namespace BookStore.Controllers.Api
 
         //POST api/books
         [HttpPost]
-        public BookModels CreateBook(BookModels book)
+        public BookDto CreateBook(BookDto bookDto)
         {
             if (!ModelState.IsValid)
             {
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
 
+            var book = Mapper.Map<BookDto, BookModels>(bookDto);
+                        
+            book.ImageData = null;
+            book.ImageMimeType = null;
+
             applicationDbContext.Books.Add(book);
             applicationDbContext.SaveChanges();
 
-            return book;
+            bookDto.Id = book.Id;
+            
+            return bookDto;
         }
 
         //PUT api/books/1
         [HttpPut]
-        public void UpdateBook(int id, BookModels book)
+        public void UpdateBook(int id, BookDto bookDto)
         {
             if (!ModelState.IsValid)
             {
@@ -69,12 +76,7 @@ namespace BookStore.Controllers.Api
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            bookInDb.Name = book.Name;
-            bookInDb.Author = book.Author;
-            bookInDb.ReleaseYear = book.ReleaseYear;
-            bookInDb.Description = book.Description;
-            bookInDb.ImageData = book.ImageData;
-            bookInDb.ImageMimeType = book.ImageMimeType;
+            Mapper.Map(bookDto, bookInDb);
 
             applicationDbContext.SaveChanges();
         }
