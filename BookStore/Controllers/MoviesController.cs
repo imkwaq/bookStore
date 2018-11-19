@@ -7,17 +7,33 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BookStore.Models;
+using BookStore.ViewModels;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace BookStore.Controllers
-{   
+{
     public class MoviesController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext dbContext = new ApplicationDbContext();
+        private ApplicationUserManager userManager = null;
+        private IList<string> roles = new List<string>();
+        private ApplicationUser user = null;
 
         // GET: Movies
         public ActionResult Index()
         {
-            return View(db.Movies.ToList());
+            var movies = dbContext.Movies.ToList();
+
+            userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            user = userManager.FindByEmail(User.Identity.Name);
+            if (user != null)
+                roles = userManager.GetRoles(user.Id);
+            var admin = roles.Contains("admin");
+            ViewBag.Admin = admin;
+
+            return View(movies);
+
         }
 
         // GET: Movies/Details/5
@@ -27,7 +43,7 @@ namespace BookStore.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            MovieModels movieModels = db.Movies.Find(id);
+            MovieModels movieModels = dbContext.Movies.Find(id);
             if (movieModels == null)
             {
                 return HttpNotFound();
@@ -38,7 +54,13 @@ namespace BookStore.Controllers
         // GET: Movies/Create
         public ActionResult Create()
         {
-            return View();
+            MovieViewModel movieView = new MovieViewModel
+            {
+                Movie = new MovieModels(),
+                Genres = dbContext.MovieGenres.ToList()
+            };
+
+            return View(movieView);
         }
 
         // POST: Movies/Create
@@ -46,16 +68,18 @@ namespace BookStore.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Director,ReleaseDate,RunningTime")] MovieModels movieModels)
+        //[Bind(Include = "Id,Name,Director,ReleaseDate,RunningTime")]
+        public ActionResult Create(MovieViewModel movieView)
         {
             if (ModelState.IsValid)
             {
-                db.Movies.Add(movieModels);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                movieView.Movie.MovieGenreModels = dbContext.MovieGenres.Find(movieView.Movie.MovieGenreModels.Id);
+
+                dbContext.Movies.Add(movieView.Movie);
+                dbContext.SaveChanges();
             }
 
-            return View(movieModels);
+            return RedirectToAction("Index");
         }
 
         // GET: Movies/Edit/5
@@ -65,12 +89,21 @@ namespace BookStore.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            MovieModels movieModels = db.Movies.Find(id);
+
+            MovieModels movieModels = dbContext.Movies.Include(g => g.MovieGenreModels).Where(i => i.Id == id).Single();
+
             if (movieModels == null)
             {
                 return HttpNotFound();
             }
-            return View(movieModels);
+
+            MovieViewModel movieView = new MovieViewModel
+            {
+                Movie = movieModels,
+                Genres = dbContext.MovieGenres.ToList()
+            };
+
+            return View(movieView);
         }
 
         // POST: Movies/Edit/5
@@ -78,15 +111,18 @@ namespace BookStore.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Director,ReleaseDate,RunningTime")] MovieModels movieModels)
+        //[Bind(Include = "Id,Name,Director,ReleaseDate,RunningTime")]
+        public ActionResult Edit(MovieViewModel movieView)
         {
             if (ModelState.IsValid)
-            {
-                db.Entry(movieModels).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+            {                
+                var movieInDb = dbContext.Movies.Single(c => c.Id == movieView.Movie.Id);
+                var genre = dbContext.MovieGenres.Find(movieView.Movie.MovieGenreModels.Id);
+                movieInDb.MovieGenreModels = genre;
+                dbContext.SaveChanges();
             }
-            return View(movieModels);
+            return RedirectToAction("Index");
+            //return View(movieView);
         }
 
         // GET: Movies/Delete/5
@@ -96,7 +132,7 @@ namespace BookStore.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            MovieModels movieModels = db.Movies.Find(id);
+            MovieModels movieModels = dbContext.Movies.Find(id);
             if (movieModels == null)
             {
                 return HttpNotFound();
@@ -109,9 +145,9 @@ namespace BookStore.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            MovieModels movieModels = db.Movies.Find(id);
-            db.Movies.Remove(movieModels);
-            db.SaveChanges();
+            MovieModels movieModels = dbContext.Movies.Find(id);
+            dbContext.Movies.Remove(movieModels);
+            dbContext.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -119,7 +155,7 @@ namespace BookStore.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                dbContext.Dispose();
             }
             base.Dispose(disposing);
         }

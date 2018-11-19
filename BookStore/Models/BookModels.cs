@@ -10,8 +10,10 @@ namespace BookStore.Models
     {
         public int Id { get; set; }
 
+        [Required]
         public string Name { get; set; }
 
+        [Required]
         public string Author { get; set; }
 
         [Required]
@@ -23,6 +25,7 @@ namespace BookStore.Models
 
         public string Description { get; set; }
 
+        [Required]
         public decimal Price { get; set; }
 
         [Display(Name = "Related movie")]
