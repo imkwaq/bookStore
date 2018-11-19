@@ -9,23 +9,36 @@ using System.Web;
 using System.Web.Mvc;
 using BookStore.Models;
 using BookStore.ViewModels;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace BookStore.Controllers
 {
     public class BooksController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext dbContext = new ApplicationDbContext();
+        private IList<string> roles = new List<string>();
+        private ApplicationUserManager userManager = null;
+        private ApplicationUser user = null;
 
         // GET: Books
         public ActionResult Index()
-        {
-            var books = db.Books.Include(book => book.MovieModels).ToList();
+        {            
+            var books = dbContext.Books.Include(book => book.MovieModels).ToList();
+
+            userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            user = userManager.FindByEmail(User.Identity.Name);
+            if (user != null)
+                roles = userManager.GetRoles(user.Id);
+            var admin = roles.Contains("admin");
+            ViewBag.Admin = admin;
+
             return View(books);
         }
 
         public FileContentResult GetImage(int bookId)
         {
-            BookModels book = db.Books
+            BookModels book = dbContext.Books
                 .FirstOrDefault(g => g.Id == bookId);
 
             if (book != null)
@@ -45,19 +58,28 @@ namespace BookStore.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BookModels bookModels = db.Books.Find(id);
+            BookModels bookModels = dbContext.Books.Find(id);
             if (bookModels == null)
             {
                 return HttpNotFound();
             }
+
+            userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            user = userManager.FindByEmail(User.Identity.Name);
+            if (user != null)
+                roles = userManager.GetRoles(user.Id);
+            var admin = roles.Contains("admin");
+            ViewBag.Admin = admin;
+
             return View(bookModels);
         }
 
         // GET: Books/Create
+        [Authorize(Roles = "admin")]
         public ActionResult Create()
         {
-            var genres = db.BookGenres.ToList();
-            var movies = db.Movies.ToList();
+            var genres = dbContext.BookGenres.ToList();
+            var movies = dbContext.Movies.ToList();
             var viewModel = new BookViewModel()
             {
                 Book = new BookModels(),
@@ -72,6 +94,7 @@ namespace BookStore.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         //[Bind(Include = "Id,Name,Author,ReleaseYear,Description,Price")]
         public ActionResult Create(BookViewModel bookModels, HttpPostedFileBase uploadImage) /*, HttpPostedFileBase uploadImage*/
         {
@@ -96,10 +119,10 @@ namespace BookStore.Controllers
                     bookModels.Book.MovieModels.Id = 0;
                 }
 
-                bookModels.Book.BookGenreModels = db.BookGenres.Find(bookModels.Book.BookGenreModels.Id);
-                bookModels.Book.MovieModels = db.Movies.Find(bookModels.Book.MovieModels.Id);
-                db.Books.Add(bookModels.Book);
-                db.SaveChanges();
+                bookModels.Book.BookGenreModels = dbContext.BookGenres.Find(bookModels.Book.BookGenreModels.Id);
+                bookModels.Book.MovieModels = dbContext.Movies.Find(bookModels.Book.MovieModels.Id);
+                dbContext.Books.Add(bookModels.Book);
+                dbContext.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -107,17 +130,26 @@ namespace BookStore.Controllers
         }
 
         // GET: Books/Edit/5
+        [Authorize(Roles = "admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BookModels bookModels = db.Books.Find(id);
+            BookModels bookModels = dbContext.Books.Find(id);
             if (bookModels == null)
             {
                 return HttpNotFound();
             }
+
+            userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            user = userManager.FindByEmail(User.Identity.Name);
+            if (user != null)
+                roles = userManager.GetRoles(user.Id);
+
+            ViewBag.Roles = roles;
+
             return View(bookModels);
         }
 
@@ -126,6 +158,7 @@ namespace BookStore.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public ActionResult Edit([Bind(Include = "Id,Name,Author,ReleaseYear,Description,Price")] BookModels bookModels, HttpPostedFileBase uploadImage)
         {
             if (ModelState.IsValid && uploadImage != null)
@@ -141,21 +174,22 @@ namespace BookStore.Controllers
                 bookModels.ImageData = imageData;
                 
 
-                db.Entry(bookModels).State = EntityState.Modified;
-                db.SaveChanges();
+                dbContext.Entry(bookModels).State = EntityState.Modified;
+                dbContext.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(bookModels);
         }
 
         // GET: Books/Delete/5
+        [Authorize(Roles = "admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BookModels bookModels = db.Books.Find(id);
+            BookModels bookModels = dbContext.Books.Find(id);
             if (bookModels == null)
             {
                 return HttpNotFound();
@@ -166,11 +200,12 @@ namespace BookStore.Controllers
         // POST: Books/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public ActionResult DeleteConfirmed(int id)
         {
-            BookModels bookModels = db.Books.Find(id);
-            db.Books.Remove(bookModels);
-            db.SaveChanges();
+            BookModels bookModels = dbContext.Books.Find(id);
+            dbContext.Books.Remove(bookModels);
+            dbContext.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -178,7 +213,7 @@ namespace BookStore.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                dbContext.Dispose();
             }
             base.Dispose(disposing);
         }

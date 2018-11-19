@@ -233,6 +233,10 @@
     <Compile Include="Migrations\201811092104307_AddImageColumsToBookModels.Designer.cs">
       <DependentUpon>201811092104307_AddImageColumsToBookModels.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811190852116_AddAdminAccount.cs" />
+    <Compile Include="Migrations\201811190852116_AddAdminAccount.Designer.cs">
+      <DependentUpon>201811190852116_AddAdminAccount.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BookGenreModels.cs" />
@@ -406,6 +410,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811092104307_AddImageColumsToBookModels.resx">
       <DependentUpon>201811092104307_AddImageColumsToBookModels.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811190852116_AddAdminAccount.resx">
+      <DependentUpon>201811190852116_AddAdminAccount.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

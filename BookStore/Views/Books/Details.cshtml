@@ -55,7 +55,10 @@
                     <div class="row justify-content-center align-items-center pt-4">
                         @Html.ActionLink("Add to cart", "AddToCart", "Cart", new { id = Model.Id, returnUrl = Request.Url.PathAndQuery }, new { @class = "btn btn-default p-3" })
                         @Html.ActionLink("Back to list", "Index", "Book", new { @class = "btn btn-default p-3" })
-                        @Html.ActionLink("Edit book", "Edit", new { id = Model.Id }, new { @class = "btn btn-default p-3" })
+                        @if (ViewBag.Admin)
+                        {
+                            @Html.ActionLink("Edit book", "Edit", new { id = Model.Id }, new { @class = "btn btn-default p-3" })
+                        }
                     </div>
                 </div>
             </div>

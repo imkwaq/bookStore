@@ -4,8 +4,11 @@
     ViewBag.Title = "Books for sale";
 }
 
-<p class="text-center">
-    @Html.ActionLink("Add new book", "Create", null, new { @class = "btn btn-default" })
+<p class="text-center">    
+    @if (ViewBag.Admin)
+    {
+        @Html.ActionLink("Add new book", "Create", null, new { @class = "btn btn-default" })
+    }
 </p>
 
 <div class="container flex-center">

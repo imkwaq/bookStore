@@ -9,7 +9,7 @@ using System.Web.Mvc;
 using BookStore.Models;
 
 namespace BookStore.Controllers
-{
+{   
     public class MoviesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
